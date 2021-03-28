@@ -9,7 +9,7 @@ function iter(limit, num) {
     console.log("not done yet")
     const clients = self.clients.matchAll().then(clients => {
         clients.forEach(client => {
-            let vibration = 100 * (num + 1);
+            let vibration = 100 * num;
             client.postMessage({
                 body: 'hihi ' + vibration,
                 vibration: vibration,

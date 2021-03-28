@@ -3,7 +3,10 @@ const second = document.querySelector('#number2');
 
 const result = document.querySelector('.result');
 
-let notification = null;
+async function getSW() {
+  return navigator.serviceWorker.getRegistration('/worker.js');
+}
+
 
 if (navigator.serviceWorker) {
 	let y = navigator.serviceWorker;
@@ -13,14 +16,17 @@ if (navigator.serviceWorker) {
 	}, function(error) {
 		console.log('Reg fail:', error);
 	});
-	navigator.serviceWorker.onmessage = event => {
+	navigator.serviceWorker.onmessage = async function(event) {
 		dat = event.data;
 		console.log("Hey got message");
-		if (!!notification) {
-			notification.close();
-		}
-		// notification = new Notification('test', dat);
-		notification = ServiceWorkerRegistration.showNotification('test', dat);
+		let sw = await getSW();
+		let nots = await sw.getNotifications();
+		nots.forEach(not => {
+			not.close();
+		});
+		sw.showNotification('test', dat).then(res => {
+			notification = res
+		});
 	}
 } else {
 	console.log('Your browser doesn\'t support web workers.')
