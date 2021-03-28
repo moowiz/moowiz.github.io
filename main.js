@@ -7,7 +7,7 @@ let notification = null;
 
 if (navigator.serviceWorker) {
 	let y = navigator.serviceWorker;
-	navigator.serviceWorker.register('/escalating-client/worker.js').then(function(registration) {
+	navigator.serviceWorker.register('/escalating-client/worker.js', {scope: '/escalating-client/'}).then(function(registration) {
 		console.log('Reg succ:', registration);
 		navigator.serviceWorker.controller.postMessage(2);
 	}, function(error) {
