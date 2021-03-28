@@ -19,7 +19,8 @@ if (navigator.serviceWorker) {
 		if (!!notification) {
 			notification.close();
 		}
-		notification = new Notification('test', dat);
+		// notification = new Notification('test', dat);
+		notification = ServiceWorkerRegistration.showNotification('test', dat);
 	}
 } else {
 	console.log('Your browser doesn\'t support web workers.')
