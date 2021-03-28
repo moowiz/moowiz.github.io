@@ -2,8 +2,6 @@ let timeout = 2 * 1000;
 
 let notification = null;
 
-let showNot = ServiceWorkerRegistration.showNotification;
-
 function iter(limit, num) {
     num = num || 0;
     if (num >= limit) {
@@ -15,10 +13,7 @@ function iter(limit, num) {
     }
     console.log("not done yet")
     let vibration = 100 * num;
-    notification = showNot('To do list', {
-        body: "HEY SUP " + vibration,
-        vibrate: vibration,
-    });
+    postMessage(vibration);
     let next = num += 1;
     setTimeout(function() {
         iter(limit, next);

@@ -3,6 +3,8 @@ const second = document.querySelector('#number2');
 
 const result = document.querySelector('.result');
 
+let notification = null;
+
 if (window.Worker) {
 	const myWorker = new Worker("worker.js");
 
@@ -17,8 +19,14 @@ if (window.Worker) {
 	}
 
 	myWorker.onmessage = function(e) {
-		result.textContent = e.data;
-		console.log('Message received from worker');
+		console.log('Message received from worker ' + e.data);
+		if (!!notification) {
+			notification.close();
+		}
+		notification = new Notification('To do list', {
+			body: "HEY SUP " + e.data,
+			vibrate: e.data,
+		});
 	}
 } else {
 	console.log('Your browser doesn\'t support web workers.')
