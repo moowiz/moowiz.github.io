@@ -7,6 +7,7 @@ async function getSW() {
   return navigator.serviceWorker.getRegistration('/worker.js');
 }
 
+let a = document.getElementById("audio");
 
 if (navigator.serviceWorker) {
 	let y = navigator.serviceWorker;
@@ -20,20 +21,27 @@ if (navigator.serviceWorker) {
 		dat = event.data;
 		console.log("Hey got message");
 		let sw = await getSW();
+		a.pause();
+		a.currentTime = 0;
 		let nots = await sw.getNotifications();
 		nots.forEach(not => {
 			not.close();
 		});
+		/*
 		sw.showNotification('test', dat).then(res => {
 			notification = res
 		});
+		*/
+		a.play();
 	}
 } else {
 	console.log('Your browser doesn\'t support web workers.')
 }
 
-window.addEventListener('message', event => { console.log(event) }, false);
-
+first.onchange = function() {
+	let a = document.getElementById("audio");
+	a.play();
+}
 
 function askNotificationPermission() {
   // function to actually ask the permissions

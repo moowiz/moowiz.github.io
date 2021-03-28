@@ -1,4 +1,4 @@
-let timeout = 2 * 1000;
+let timeout = 10 * 1000;
 
 function iter(limit, num) {
     num = num || 0;
