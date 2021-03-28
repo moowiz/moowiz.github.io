@@ -1,11 +1,31 @@
+let timeout = 2 * 1000;
+
+let notification = null;
+
+function iter(limit, num) {
+    num = num || 0;
+    if (num >= limit) {
+        console.log("IM DONE");
+        return
+    }
+    if (!!notification) {
+        notification.close()
+    }
+    console.log("not done yet")
+    let vibration = 100 * num;
+    notification = new Notification('To do list', {
+        body: "HEY SUP " + vibration,
+        vibrate: vibration,
+    });
+    let next = num += 1;
+    setTimeout(function() {
+        iter(limit, next);
+    }, timeout)
+}
+
+iter(2);
+
 onmessage = function(e) {
-  console.log('Worker: Message received from main script');
-  const result = e.data[0] * e.data[1];
-  if (isNaN(result)) {
-    postMessage('Please write two numbers');
-  } else {
-    const workerResult = 'Result: ' + result;
-    console.log('Worker: Posting message back to main script');
-    postMessage(workerResult);
-  }
+  let dat = e.data;
+  console.log('got data ' + dat)
 }
