@@ -12,7 +12,7 @@ function iter(limit, num) {
             let vibration = 100 * num;
             client.postMessage({
                 body: 'hihi ' + vibration,
-                vibration: vibration,
+                vibration: [300, 300, 300, 300, 700, 1000],
             });
         });
     });
