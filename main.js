@@ -5,32 +5,28 @@ const result = document.querySelector('.result');
 
 let notification = null;
 
-if (window.Worker) {
-	const myWorker = new Worker("worker.js");
-
-	first.onchange = function() {
-	  myWorker.postMessage([first.value, second.value]);
-	  console.log('Message posted to worker');
-	}
-
-	second.onchange = function() {
-	  myWorker.postMessage([first.value, second.value]);
-	  console.log('Message posted to worker');
-	}
-
-	myWorker.onmessage = function(e) {
-		console.log('Message received from worker ' + e.data);
+if (navigator.serviceWorker) {
+	let y = navigator.serviceWorker;
+	navigator.serviceWorker.register('/worker.js').then(function(registration) {
+		console.log('Reg succ:', registration);
+		navigator.serviceWorker.controller.postMessage(2);
+	}, function(error) {
+		console.log('Reg fail:', error);
+	});
+	navigator.serviceWorker.onmessage = event => {
+		dat = event.data;
+		console.log("Hey got message");
 		if (!!notification) {
 			notification.close();
 		}
-		notification = new Notification('To do list', {
-			body: "HEY SUP " + e.data,
-			vibrate: e.data,
-		});
+		notification = new Notification('test', dat);
 	}
 } else {
 	console.log('Your browser doesn\'t support web workers.')
 }
+
+window.addEventListener('message', event => { console.log(event) }, false);
+
 
 function askNotificationPermission() {
   // function to actually ask the permissions
